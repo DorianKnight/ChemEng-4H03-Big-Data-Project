@@ -14,10 +14,9 @@ species2_source = "Brown-crested Flycatcher raw audio";
 species2_destination = "Brown-crested Flycatcher spectrograms";
 
 
-% generate_spectrograms(species1_source, species1_destination, "Black-capped Donacobius");
+generate_spectrograms(species1_source, species1_destination, "Black-capped Donacobius");
 generate_spectrograms(species2_source, species2_destination, "Brown-crested Flycatcher");
 
-drive_directory = "D:\CHEMENG4H03_Data";
 
 % Extract all file names in the folder and create a spectrogram for each
 % one
@@ -32,11 +31,12 @@ function [] = generate_spectrograms(source_path, destination_path, bird_name)
 
     % Iterate through everyfile and produce the spectrogram
     for index = 3:num_of_files  % First two indeces are directories
-    % for index = 3:3
+    % for index = 3:3 % used for testing
         file = all_files_bcd(index).name;
         file_string = append(folder_name, "\", file);
         disp(['Generating spectrogram for: ', bird_name, file])
         [y, fs] = audioread(file_string);
+        display(fs)
     
         % Make spectrogram
         [s,f,t] = stft(y, fs);
@@ -52,9 +52,6 @@ function [] = generate_spectrograms(source_path, destination_path, bird_name)
         xlim([0 inf]);
         ylim([0 fs/2000]);
         colorbar
-    
-        % Save spectrogram
-        % produced_file = fullfile("D:","CHEMENG4H03_Data",destination_path,append("S1_",string(index)));
 
         % Determine file prefix
         if (bird_name == "Black-capped Donacobius")
@@ -63,10 +60,12 @@ function [] = generate_spectrograms(source_path, destination_path, bird_name)
             file_prefix = "S2_";
         end
 
-        produced_file = append(destination_path,"\",file_prefix,string(index));
-        writematrix(sdb, append(produced_file,".csv"));
-        saveas(figure, produced_file, "png"); % Save as PNG
-        saveas(figure, produced_file, "fig"); % Save as fig
+        % Save spectrogram - commented out for your safety
+
+        % produced_file = append(destination_path,"\",file_prefix,string(index));
+        % writematrix(sdb, append(produced_file,".csv"));
+        % saveas(figure, produced_file, "png"); % Save as PNG
+        % saveas(figure, produced_file, "fig"); % Save as fig
     
     end
 end
